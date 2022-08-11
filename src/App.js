@@ -123,6 +123,7 @@ function App() {
                           placeholder="諗個你方便計數嘅名"
                           className="block w-full rounded-md px-4 py-2 mt-1 text-sm outline-none border-2 border-gray-200 focus:border-indigo-500"
                           required
+                          autocomplete="off"
                         />
                       </div>
                       <div>
