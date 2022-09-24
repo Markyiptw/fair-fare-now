@@ -1,14 +1,38 @@
 // Generated using webpack-cli https://github.com/webpack/webpack-cli
 
 const isProduction = process.env.NODE_ENV == "production";
+const HtmlWebpackPlugin = require("html-webpack-plugin");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 module.exports = {
-  plugins: [],
+  plugins: [
+    new HtmlWebpackPlugin({
+      template: "src/index.html",
+      inject: true, // default to true, set it explicitly so I couuld leave comment
+      // caused duplicated head tags when used with <%= htmlWebpackPlugin.tags.headTags %> in template
+      // so either use this or use the template tags
+    }),
+    new MiniCssExtractPlugin(),
+  ],
   module: {
     rules: [
       {
         test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif)$/i,
         type: "asset",
+      },
+      {
+        test: /\.css$/i,
+        use: [MiniCssExtractPlugin.loader, "css-loader", "postcss-loader"],
+      },
+      {
+        test: /\.m?js$/,
+        exclude: /(node_modules|bower_components)/,
+        use: {
+          loader: "babel-loader",
+          options: {
+            presets: ["@babel/preset-env", "@babel/preset-react"],
+          },
+        },
       },
     ],
   },
