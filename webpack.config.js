@@ -1,8 +1,9 @@
 // Generated using webpack-cli https://github.com/webpack/webpack-cli
 
-const isProduction = process.env.NODE_ENV == "production";
+const isDevelopment = process.env.NODE_ENV !== "production";
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const ReactRefreshWebpackPlugin = require("@pmmmwh/react-refresh-webpack-plugin");
 
 module.exports = {
   plugins: [
@@ -13,7 +14,8 @@ module.exports = {
       // so either use this or use the template tags
     }),
     new MiniCssExtractPlugin(),
-  ],
+    isDevelopment && new ReactRefreshWebpackPlugin(),
+  ].filter(Boolean),
   module: {
     rules: [
       {
@@ -31,10 +33,13 @@ module.exports = {
           loader: "babel-loader",
           options: {
             presets: ["@babel/preset-env", "@babel/preset-react"],
+            plugins: [
+              isDevelopment && require.resolve("react-refresh/babel"),
+            ].filter(Boolean),
           },
         },
       },
     ],
   },
-  mode: isProduction ? "production" : "development",
+  mode: isDevelopment ? "development" : "production",
 };
