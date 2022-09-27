@@ -6,6 +6,7 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const ReactRefreshWebpackPlugin = require("@pmmmwh/react-refresh-webpack-plugin");
 
 module.exports = {
+  devtool: isDevelopment ? "eval-source-map" : false,
   plugins: [
     new HtmlWebpackPlugin({
       template: "src/index.html",
