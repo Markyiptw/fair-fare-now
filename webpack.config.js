@@ -6,7 +6,11 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const ReactRefreshWebpackPlugin = require("@pmmmwh/react-refresh-webpack-plugin");
 
 module.exports = {
+  entry: "./src/index.tsx",
   devtool: isDevelopment ? "eval-source-map" : false,
+  resolve: {
+    extensions: [".tsx", ".ts", "..."],
+  },
   plugins: [
     new HtmlWebpackPlugin({
       template: "src/index.html",
@@ -28,7 +32,7 @@ module.exports = {
         use: [MiniCssExtractPlugin.loader, "css-loader", "postcss-loader"],
       },
       {
-        test: /\.m?js$/,
+        test: /\.(t|j)sx?$/, // https://github.com/Microsoft/TypeScript-React-Conversion-Guide#set-up-build-pipeline
         exclude: /(node_modules|bower_components)/,
         use: {
           loader: "babel-loader",
@@ -42,6 +46,7 @@ module.exports = {
                 },
               ],
               "@babel/preset-react",
+              "@babel/preset-typescript",
             ],
             plugins: [
               isDevelopment && require.resolve("react-refresh/babel"),
